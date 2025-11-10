@@ -1,3 +1,4 @@
+import { siteConfig } from '@/lib/config/site';
 import { baseUrl } from 'lib/utils';
 
 export default function robots() {
@@ -7,7 +8,7 @@ export default function robots() {
         userAgent: '*'
       }
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${siteConfig}/sitemap.xml`,
     host: baseUrl
   };
 }

@@ -2,9 +2,11 @@
 
 import { TAGS } from 'lib/constants';
 import {
+  SHOP_UNAVAILABLE_USER_MESSAGE,
   addToCart,
   createCart,
   getCart,
+  isShopifyUnavailableError,
   removeFromCart,
   updateCart
 } from 'lib/shopify';
@@ -24,6 +26,10 @@ export async function addItem(
     await addToCart([{ merchandiseId: selectedVariantId, quantity: 1 }]);
     revalidateTag(TAGS.cart, 'max');
   } catch (e) {
+    if (isShopifyUnavailableError(e)) {
+      return SHOP_UNAVAILABLE_USER_MESSAGE;
+    }
+
     return 'Error adding item to cart';
   }
 }
@@ -47,6 +53,10 @@ export async function removeItem(prevState: any, merchandiseId: string) {
       return 'Item not found in cart';
     }
   } catch (e) {
+    if (isShopifyUnavailableError(e)) {
+      return SHOP_UNAVAILABLE_USER_MESSAGE;
+    }
+
     return 'Error removing item from cart';
   }
 }
@@ -90,17 +100,43 @@ export async function updateItemQuantity(
 
     revalidateTag(TAGS.cart, 'max');
   } catch (e) {
+    if (isShopifyUnavailableError(e)) {
+      return SHOP_UNAVAILABLE_USER_MESSAGE;
+    }
+
     console.error(e);
     return 'Error updating item quantity';
   }
 }
 
 export async function redirectToCheckout() {
-  let cart = await getCart();
-  redirect(cart!.checkoutUrl);
+  try {
+    const cart = await getCart();
+
+    if (!cart?.checkoutUrl) {
+      throw new Error('Missing checkout URL');
+    }
+
+    redirect(cart.checkoutUrl);
+  } catch (error) {
+    if (isShopifyUnavailableError(error)) {
+      throw new Error(SHOP_UNAVAILABLE_USER_MESSAGE);
+    }
+
+    throw error;
+  }
 }
 
 export async function createCartAndSetCookie() {
-  let cart = await createCart();
-  (await cookies()).set('cartId', cart.id!);
+  try {
+    const cart = await createCart();
+    (await cookies()).set('cartId', cart.id!);
+  } catch (error) {
+    if (isShopifyUnavailableError(error)) {
+      console.error('Unable to create cart due to unavailable shop.', error);
+      return;
+    }
+
+    throw error;
+  }
 }

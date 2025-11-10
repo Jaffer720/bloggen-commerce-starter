@@ -10,14 +10,24 @@ import { useCart } from './cart-context';
 
 function SubmitButton({
   availableForSale,
-  selectedVariantId
+  selectedVariantId,
+  shopUnavailable
 }: {
   availableForSale: boolean;
   selectedVariantId: string | undefined;
+  shopUnavailable: boolean;
 }) {
   const buttonClasses =
     'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white';
   const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60';
+
+  if (shopUnavailable) {
+    return (
+      <button disabled className={clsx(buttonClasses, disabledClasses)}>
+        Store Unavailable
+      </button>
+    );
+  }
 
   if (!availableForSale) {
     return (
@@ -59,7 +69,7 @@ function SubmitButton({
 
 export function AddToCart({ product }: { product: Product }) {
   const { variants, availableForSale } = product;
-  const { addCartItem } = useCart();
+  const { addCartItem, shopUnavailable, unavailableMessage } = useCart();
   const { state } = useProduct();
   const [message, formAction] = useActionState(addItem, null);
 
@@ -78,6 +88,10 @@ export function AddToCart({ product }: { product: Product }) {
   return (
     <form
       action={async () => {
+        if (shopUnavailable) {
+          return;
+        }
+
         addCartItem(finalVariant, product);
         addItemAction();
       }}
@@ -85,9 +99,10 @@ export function AddToCart({ product }: { product: Product }) {
       <SubmitButton
         availableForSale={availableForSale}
         selectedVariantId={selectedVariantId}
+        shopUnavailable={shopUnavailable}
       />
       <p aria-live="polite" className="sr-only" role="status">
-        {message}
+        {message ?? (shopUnavailable ? unavailableMessage : null)}
       </p>
     </form>
   );

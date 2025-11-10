@@ -1,25 +1,45 @@
 import { CartProvider } from 'components/cart/cart-context';
 import { Navbar } from 'components/layout/navbar';
 import { WelcomeToast } from 'components/welcome-toast';
-import { GeistSans } from 'geist/font/sans';
-import { getCart } from 'lib/shopify';
-import { ReactNode } from 'react';
+import { ShopUnavailableBanner } from 'components/shop-unavailable-banner';
+import { Manrope } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
+
+import { SHOP_UNAVAILABLE_USER_MESSAGE, getCart, isShopifyUnavailableError } from 'lib/shopify';
+import { ReactNode, Suspense } from 'react';
 import { Toaster } from 'sonner';
+import { RootProvider } from 'fumadocs-ui/provider/next';
+
 import './globals.css';
 import { baseUrl } from 'lib/utils';
+import { Viewport } from 'next';
+import Footer from '@/components/layout/footer';
 
-const { SITE_NAME } = process.env;
+// const { SITE_NAME } = process.env;
 
-export const metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    default: SITE_NAME!,
-    template: `%s | ${SITE_NAME}`
-  },
-  robots: {
-    follow: true,
-    index: true
-  }
+// export const metadata = {
+//   metadataBase: new URL(baseUrl),
+//   title: {
+//     default: SITE_NAME!,
+//     template: `%s | ${SITE_NAME}`
+//   },
+//   robots: {
+//     follow: true,
+//     index: true
+//   }
+// };
+const manrope = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-manrope',
+  preload: true, // Add this
+  fallback: ['system-ui', 'arial'] // Add fallback
+});
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1
 };
 
 export default async function RootLayout({
@@ -27,20 +47,54 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  // Don't await the fetch, pass the Promise to the context provider
-  const cart = getCart();
+  const cartResultPromise = getCart()
+    .then((cart) => ({ cart, shopUnavailable: false }))
+    .catch((error) => {
+      if (isShopifyUnavailableError(error)) {
+        return { cart: undefined, shopUnavailable: true };
+      }
+
+      throw error;
+    });
+
+  const cartPromise = cartResultPromise.then((result) => result.cart);
+  const shopUnavailablePromise = cartResultPromise.then(
+    (result) => result.shopUnavailable
+  );
 
   return (
-    <html lang="en" className={GeistSans.variable}>
-      <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
-        <CartProvider cartPromise={cart}>
-          <Navbar />
-          <main>
-            {children}
-            <Toaster closeButton />
-            <WelcomeToast />
-          </main>
-        </CartProvider>
+    <html lang="en" className={manrope.variable}>
+      <body
+        className="antialiased bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white"
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem={true}
+          storageKey='bloggen-commerce-starter-theme'
+          disableTransitionOnChange>
+          <CartProvider
+            cartPromise={cartPromise}
+            shopUnavailablePromise={shopUnavailablePromise}
+            unavailableMessage={SHOP_UNAVAILABLE_USER_MESSAGE}
+          >
+            <Navbar />
+            <main>
+              <ShopUnavailableBanner />
+              <RootProvider>
+                <Suspense fallback={null}>
+                  {children}
+                </Suspense>
+              </RootProvider>
+              <Toaster closeButton />
+              <WelcomeToast />
+            </main>
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

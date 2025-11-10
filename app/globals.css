@@ -12,7 +12,13 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+@layer base {
+  @import './theme.css';
+}
 
+@layer components {
+  @import 'fumadocs-ui/style.css';
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

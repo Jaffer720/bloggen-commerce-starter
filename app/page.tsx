@@ -1,24 +1,30 @@
-import { Carousel } from 'components/carousel';
-import { ThreeItemGrid } from 'components/grid/three-items';
-import Footer from 'components/layout/footer';
-import { Suspense } from 'react';
+import { Metadata } from 'next';
 
-export const metadata = {
-  description:
-    'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
-  openGraph: {
-    type: 'website'
-  }
-};
+import Cta from '@/components/home/cta/cta';
+import DesignRift from '@/components/home/designrift/designrift';
+import Faq from '@/components/home/faq/faq';
+import Features from '@/components/home/features/features';
+import Hero from '@/components/home/hero/hero';
+import Performance from '@/components/home/perfomance/performance';
+import { createPageMetadata } from '@/lib/seo/metadata/create-page-metadata';
+import HomeSchema from '@/lib/seo/schema/home';
+import FAQSchema from '@/lib/seo/schema/faq';
 
-export default function HomePage() {
-  return (
-    <>
-      <ThreeItemGrid />
-      <Carousel />
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
-    </>
-  );
+export const metadata: Metadata = createPageMetadata({
+    path: ''
+});
+
+export default function Page() {
+    return (
+        <main className='relative flex w-full flex-col items-center justify-center overflow-hidden'>
+            <HomeSchema />
+            <FAQSchema />
+            <Hero />
+            {/* <Performance /> */}
+            <DesignRift />
+            <Features />
+            <Faq />
+            <Cta />
+        </main>
+    );
 }

@@ -28,6 +28,8 @@ type CartAction =
 
 type CartContextType = {
   cartPromise: Promise<Cart | undefined>;
+  shopUnavailablePromise: Promise<boolean>;
+  unavailableMessage: string;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -192,13 +194,19 @@ function cartReducer(state: Cart | undefined, action: CartAction): Cart {
 
 export function CartProvider({
   children,
-  cartPromise
+  cartPromise,
+  shopUnavailablePromise,
+  unavailableMessage
 }: {
   children: React.ReactNode;
   cartPromise: Promise<Cart | undefined>;
+  shopUnavailablePromise: Promise<boolean>;
+  unavailableMessage: string;
 }) {
   return (
-    <CartContext.Provider value={{ cartPromise }}>
+    <CartContext.Provider
+      value={{ cartPromise, shopUnavailablePromise, unavailableMessage }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -211,6 +219,7 @@ export function useCart() {
   }
 
   const initialCart = use(context.cartPromise);
+  const shopUnavailable = use(context.shopUnavailablePromise);
   const [optimisticCart, updateOptimisticCart] = useOptimistic(
     initialCart,
     cartReducer
@@ -231,8 +240,10 @@ export function useCart() {
     () => ({
       cart: optimisticCart,
       updateCartItem,
-      addCartItem
+      addCartItem,
+      shopUnavailable,
+      unavailableMessage: context.unavailableMessage
     }),
-    [optimisticCart]
+    [optimisticCart, shopUnavailable, context.unavailableMessage]
   );
 }
