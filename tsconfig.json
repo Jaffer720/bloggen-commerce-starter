@@ -6,6 +6,12 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      // "@/components/*": ["components/*"]
+      "@/*": [
+        "./*"
+      ]
+    },
     "downlevelIteration": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,7 +20,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",

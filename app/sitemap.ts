@@ -1,3 +1,4 @@
+import { getBlogPosts } from '@/lib/blog';
 import { getCollections, getPages, getProducts } from 'lib/shopify';
 import { baseUrl, validateEnvironmentVariables } from 'lib/utils';
 import { MetadataRoute } from 'next';
@@ -17,9 +18,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString()
   }));
 
+  const blogs = getBlogPosts().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.metadata.publishedAt
+  }));
+
   const collectionsPromise = getCollections().then((collections) =>
     collections.map((collection) => ({
-      url: `${baseUrl}${collection.path}`,
+      url: `${baseUrl}/products/${collection.path}`,
       lastModified: collection.updatedAt
     }))
   );
@@ -42,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     fetchedRoutes = (
-      await Promise.all([collectionsPromise, productsPromise, pagesPromise])
+      await Promise.all([collectionsPromise, productsPromise, pagesPromise, blogs])
     ).flat();
   } catch (error) {
     throw JSON.stringify(error, null, 2);

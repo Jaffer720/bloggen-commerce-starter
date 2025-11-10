@@ -22,19 +22,27 @@ type MerchandiseSearchParams = {
 };
 
 export default function CartModal() {
-  const { cart, updateCartItem } = useCart();
+  const { cart, updateCartItem, shopUnavailable, unavailableMessage } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const quantityRef = useRef(cart?.totalQuantity);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
   useEffect(() => {
+    if (shopUnavailable) {
+      return;
+    }
+
     if (!cart) {
       createCartAndSetCookie();
     }
-  }, [cart]);
+  }, [cart, shopUnavailable]);
 
   useEffect(() => {
+    if (shopUnavailable) {
+      return;
+    }
+
     if (
       cart?.totalQuantity &&
       cart?.totalQuantity !== quantityRef.current &&
@@ -82,7 +90,17 @@ export default function CartModal() {
                 </button>
               </div>
 
-              {!cart || cart.lines.length === 0 ? (
+              {shopUnavailable ? (
+                <div className="mt-10 flex w-full flex-col items-center justify-center gap-6 text-center">
+                  <ShoppingCartIcon className="h-14" />
+                  <div className="space-y-2">
+                    <p className="text-xl font-semibold">Store unavailable</p>
+                    <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                      {unavailableMessage}
+                    </p>
+                  </div>
+                </div>
+              ) : !cart || cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
                   <ShoppingCartIcon className="h-16" />
                   <p className="mt-6 text-center text-2xl font-bold">
