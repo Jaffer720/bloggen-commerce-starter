@@ -8,7 +8,6 @@ import { Suspense } from 'react';
 
 import { Metadata } from 'next';
 
-import CalBooking from '@/components/contact/cal-booking';
 import ContactForm from '@/components/contact/contact-form';
 import TabsComponent from '@/components/ui/tabs';
 import { createPageMetadata } from '@/lib/seo/metadata/create-page-metadata';
@@ -46,17 +45,7 @@ export default function ContactPage() {
                 </div>
             )
         },
-        // {
-        //     value: 'call',
-        //     label: 'Book a call',
-        //     content: (
-        //         <ContentWrapper>
-        //             <Suspense fallback={<LoadingSpinner />}>
-        //                 <CalBooking />
-        //             </Suspense>
-        //         </ContentWrapper>
-        //     )
-        // }
+
     ];
 
     return (

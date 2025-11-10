@@ -14,13 +14,13 @@ export function parseFrontmatter<T extends Record<string, unknown>>(fileContent:
 
     const frontMatterBlock = match[1];
     const content = fileContent.replace(frontmatterRegex, '').trim();
-    const frontMatterLines = frontMatterBlock.trim().split('\n');
+    const frontMatterLines = frontMatterBlock?.trim().split('\n');
     const metadata: Record<string, string> = {};
 
-    frontMatterLines.forEach((line) => {
+    frontMatterLines?.forEach((line) => {
         const [key, ...valueArr] = line.split(': ');
         const value = valueArr.join(': ').trim();
-        metadata[key.trim()] = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
+        metadata[key?key.trim():""] = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
     });
 
     return { metadata: metadata as unknown as T, content };

@@ -359,6 +359,17 @@ export async function getCollection(
 
     return reshapeCollection(res.body.data.collection);
   } catch (error) {
+    const gqlError =
+      (error as { error?: { message?: string; extensions?: { code?: string } } }).error ??
+      (error as { message?: string; extensions?: { code?: string } });
+    const code = gqlError?.extensions?.code;
+    const message = gqlError?.message;
+
+    if (code === 'NOT_FOUND' || message?.includes('Not Found')) {
+      console.warn(`Collection "${handle}" not found; returning undefined.`);
+      return undefined;
+    }
+
     return handleUnavailableShop(error, undefined);
   }
 }
@@ -395,6 +406,17 @@ export async function getCollectionProducts({
       removeEdgesAndNodes(res.body.data.collection.products)
     );
   } catch (error) {
+    const gqlError =
+      (error as { error?: { message?: string; extensions?: { code?: string } } }).error ??
+      (error as { message?: string; extensions?: { code?: string } });
+    const code = gqlError?.extensions?.code;
+    const message = gqlError?.message;
+
+    if (code === 'NOT_FOUND' || message?.includes('Not Found')) {
+      console.warn(`Collection "${collection}" not found; returning empty product list.`);
+      return [];
+    }
+
     return handleUnavailableShop(error, [] as Product[]);
   }
 }
@@ -430,6 +452,17 @@ export async function getCollections(): Promise<Collection[]> {
 
     return collections;
   } catch (error) {
+    const gqlError =
+      (error as { error?: { message?: string; extensions?: { code?: string } } }).error ??
+      (error as { message?: string; extensions?: { code?: string } });
+    const code = gqlError?.extensions?.code;
+    const message = gqlError?.message;
+
+    if (code === 'NOT_FOUND' || message?.includes('Not Found')) {
+      console.warn('Collections not found; returning empty list.');
+      return [];
+    }
+
     return handleUnavailableShop(error, [] as Collection[]);
   }
 }
@@ -457,6 +490,17 @@ export async function getMenu(handle: string): Promise<Menu[]> {
       })) || []
     );
   } catch (error) {
+    const gqlError = (error as {
+      error?: { message?: string; extensions?: { code?: string } };
+      message?: string;
+    })?.error ?? (error as { message?: string; extensions?: { code?: string } });
+    const code = gqlError?.extensions?.code;
+    const message = gqlError?.message;
+
+    if (code === 'NOT_FOUND' || message?.includes('Not Found')) {
+      console.warn(`Menu "${handle}" not found; returning empty menu.`);
+      return [];
+    }
     return handleUnavailableShop(error, [] as Menu[]);
   }
 }

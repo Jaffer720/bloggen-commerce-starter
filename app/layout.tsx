@@ -74,26 +74,30 @@ export default async function RootLayout({
           enableSystem={true}
           storageKey='bloggen-commerce-starter-theme'
           disableTransitionOnChange>
-          <CartProvider
-            cartPromise={cartPromise}
-            shopUnavailablePromise={shopUnavailablePromise}
-            unavailableMessage={SHOP_UNAVAILABLE_USER_MESSAGE}
-          >
-            <Navbar />
-            <main className={`h-full min-h-[calc(100vh-276px)]`}>
-              <ShopUnavailableBanner />
-              <RootProvider>
+          <Suspense fallback={null}>
+            <CartProvider
+              cartPromise={cartPromise}
+              shopUnavailablePromise={shopUnavailablePromise}
+              unavailableMessage={SHOP_UNAVAILABLE_USER_MESSAGE}
+            >
+              <Navbar />
+              <main className={`h-full min-h-[calc(100vh-276px)]`}>
                 <Suspense fallback={null}>
-                  {children}
+                  <ShopUnavailableBanner />
                 </Suspense>
-              </RootProvider>
-              <Toaster closeButton />
-              <WelcomeToast />
-            </main>
-            <Suspense fallback={null}>
-              <Footer />
-            </Suspense>
-          </CartProvider>
+                <RootProvider>
+                  <Suspense fallback={null}>
+                    {children}
+                  </Suspense>
+                </RootProvider>
+                <Toaster closeButton />
+                <WelcomeToast />
+              </main>
+              <Suspense fallback={null}>
+                <Footer />
+              </Suspense>
+            </CartProvider>
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

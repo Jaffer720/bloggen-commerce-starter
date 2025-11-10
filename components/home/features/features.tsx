@@ -144,7 +144,7 @@ export default function Features() {
                         <div className='w-full'>
                             <AnimatePresence mode='wait'>
                                 <motion.div
-                                    key={currentFeature.id}
+                                    key={currentFeature?.id}
                                     variants={{
                                         initial: { opacity: 0, y: 20 },
                                         animate: { opacity: 1, y: 0 },
@@ -162,7 +162,7 @@ export default function Features() {
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.3 }}>
                                         <span className='bg-primary-bg text-primary-text-contrast inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium'>
-                                            {currentFeature.title}
+                                            {currentFeature?.title}
                                         </span>
                                     </motion.div>
 
@@ -172,7 +172,7 @@ export default function Features() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.3 }}>
-                                        {currentFeature.description}
+                                        {currentFeature?.description}
                                     </motion.h3>
 
                                     {/* Feature Details */}
@@ -181,7 +181,7 @@ export default function Features() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.3 }}>
-                                        {currentFeature.details}
+                                        {currentFeature?.details}
                                     </motion.p>
                                 </motion.div>
                             </AnimatePresence>
