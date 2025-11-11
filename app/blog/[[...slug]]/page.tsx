@@ -26,6 +26,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     }
 
     const page = blogSource.getPage(params.slug);
+    console.log('page', JSON.stringify(page?.data));
     if (!page) notFound();
 
     const MDXContent = page.data.body;
@@ -36,14 +37,14 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     //     : `${siteConfig.baseUrl}/og?title=${encodeURIComponent(page.data.title)}`;
 
     return (
-        <main role='main' className='relative min-h-screen'>
+        <main role='main' className=' relative min-h-screen'>
             <BlogPostSchema
                 title={page.data.title}
                 description={page.data.description}
                 summary={page.data.summary}
                 publishedAt={page.data.publishedAt}
                 image={page.data.image}
-                // ogImage={page.data.ogImage}
+                ogImage={page.data.ogImage}
                 slug={params.slug}
                 author={page.data.author}
                 tags={page.data.tags}

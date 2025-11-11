@@ -63,9 +63,9 @@ export default async function RootLayout({
   );
 
   return (
-    <html lang="en" className={manrope.variable}>
+    <html suppressHydrationWarning lang="en" className={manrope.variable}>
       <body
-        className="antialiased bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white"
+        className="antialiased lg:mx-auto"
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -81,7 +81,7 @@ export default async function RootLayout({
               unavailableMessage={SHOP_UNAVAILABLE_USER_MESSAGE}
             >
               <Navbar />
-              <main className={`h-full min-h-[calc(100vh-276px)]`}>
+              <main className={`h-full min-h-[calc(100vh-276px)]  bg-gradient-to-b from-canvas-bg to-canvas-bg-base md:px-0`}>
                 <Suspense fallback={null}>
                   <ShopUnavailableBanner />
                 </Suspense>
