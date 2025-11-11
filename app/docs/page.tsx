@@ -7,6 +7,7 @@ import { source } from '@/lib/source';
 import { getMDXComponents } from '@/mdx-components';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { DocsBody, DocsPage } from 'fumadocs-ui/page';
+import BlogHeader from '@/components/blog/blog-header';
 
 export default function DocsPageRoute() {
     // We only have one docs page: content/docs/getting-started-with-bloggen-commerce-starter.mdx
@@ -15,10 +16,13 @@ export default function DocsPageRoute() {
     if (!page) notFound();
 
     const MDXContent = page.data.body;
+    const data: any = page.data;
+    const headerImage = data?.image || data?.ogImage?.url || '/assets/thumbnail.png';
 
     return (
         <main role='main' className='relative min-h-screen'>
             <div className='flex max-w-7xl flex-col py-16 md:py-28'>
+                <BlogHeader title={page.data.title} image={headerImage} />
                 <div className='flex flex-row'>
                     <DocsPage
                         tableOfContent={{ enabled: true }}
@@ -39,9 +43,32 @@ export default function DocsPageRoute() {
     );
 }
 
-export const metadata = createPageMetadata({
+const baseMeta = createPageMetadata({
     path: 'docs',
     description:
         'Documentation for setting up the Shopify + Next.js Commerce Starter—env configuration, Storefront API, webhooks, and deployment.',
     baseMetadata: defaultMetadata
 });
+
+export const metadata = {
+    ...baseMeta,
+    openGraph: {
+        ...baseMeta.openGraph,
+        url: `${siteConfig.baseUrl}/docs`,
+        images: [
+            {
+                url: `${siteConfig.baseUrl}/assets/thumbnail.png`,
+                alt: 'Docs'
+            }
+        ]
+    },
+    twitter: {
+        ...baseMeta.twitter,
+        images: [
+            {
+                url: `${siteConfig.baseUrl}/assets/thumbnail.png`,
+                alt: 'Docs'
+            }
+        ]
+    }
+} as const;
