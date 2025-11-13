@@ -14,7 +14,7 @@ interface Props {
 export default function BlogHeader({ title, publishedAt, image }: Props) {
     const isBlog = title !== "Getting Started: Shopify + Next.js Commerce Starter"
     return (
-        <header className='relative mx-auto max-w-6xl px-8'>
+        <header className='relative mx-auto w-full max-w-6xl'>
             {/* Header Section */}
             <div className='mb-20'>
                 {isBlog && <div className='mb-8 flex items-center space-x-3'>

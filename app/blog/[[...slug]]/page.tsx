@@ -50,7 +50,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
             />
             <div className='flex max-w-7xl flex-col py-16 md:py-28 items-center'>
                 <BlogHeader title={page.data.title} publishedAt={page.data.publishedAt} image={page.data.image} />
-                <div className='flex flex-row'>
+                <div className='flex flex-row items-start'>
                     <DocsPage
                         tableOfContent={{ enabled: true }}
                         tableOfContentPopover={{ enabled: true }}
