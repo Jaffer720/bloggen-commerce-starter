@@ -1,75 +1,145 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fcommerce&project-name=commerce&repo-name=commerce&demo-title=Next.js%20Commerce&demo-url=https%3A%2F%2Fdemo.vercel.store&demo-image=https%3A%2F%2Fbigcommerce-demo-asset-ksvtgfvnd.vercel.app%2Fbigcommerce.png&env=COMPANY_NAME,SHOPIFY_REVALIDATION_SECRET,SHOPIFY_STORE_DOMAIN,SHOPIFY_STOREFRONT_ACCESS_TOKEN,SITE_NAME)
+---
+title: "Getting Started: Shopify + Next.js Commerce Starter"
+publishedAt: '2025-11-10'
+author: 'Silverthread Labs'
+image: '/assets/thumbnail.png'
+ogImage:
+  url: '/assets/thumbnail.png'
+summary: 'Set up a custom Shopify storefront with Next.js in minutes. Configure env variables, connect Storefront API, and enable cache revalidation webhooks.'
+tags: ['Shopify', 'Next.js', 'Headless', 'Getting Started']
+---
 
-# Next.js Commerce
+## Overview
 
-A high-performance, server-rendered Next.js App Router ecommerce application.
+This guide walks you through connecting a Shopify store to a custom, high‑performance Next.js storefront. You’ll clone the starter, add env variables, enable the Storefront API, and deploy with cache‑friendly webhooks so product and collection changes show up fast.
 
-This template uses React Server Components, Server Actions, `Suspense`, `useOptimistic`, and more.
+## Prerequisites
 
-<h3 id="v1-note"></h3>
+- Node.js 18+ (LTS recommended)
+- Git 2.x+
+- pnpm 8+ (recommended)
 
-> Note: Looking for Next.js Commerce v1? View the [code](https://github.com/vercel/commerce/tree/v1), [demo](https://commerce-v1.vercel.store), and [release notes](https://github.com/vercel/commerce/releases/tag/v1).
+Optional (analytics): Google Analytics Measurement ID (starts with `G-`).
 
-## Providers
-
-Vercel will only be actively maintaining a Shopify version [as outlined in our vision and strategy for Next.js Commerce](https://github.com/vercel/commerce/pull/966).
-
-Vercel is happy to partner and work with any commerce provider to help them get a similar template up and running and listed below. Alternative providers should be able to fork this repository and swap out the `lib/shopify` file with their own implementation while leaving the rest of the template mostly unchanged.
-
-- Shopify (this repository)
-- [BigCommerce](https://github.com/bigcommerce/nextjs-commerce) ([Demo](https://next-commerce-v2.vercel.app/))
-- [Ecwid by Lightspeed](https://github.com/Ecwid/ecwid-nextjs-commerce/) ([Demo](https://ecwid-nextjs-commerce.vercel.app/))
-- [Geins](https://github.com/geins-io/vercel-nextjs-commerce) ([Demo](https://geins-nextjs-commerce-starter.vercel.app/))
-- [Medusa](https://github.com/medusajs/vercel-commerce) ([Demo](https://medusa-nextjs-commerce.vercel.app/))
-- [Prodigy Commerce](https://github.com/prodigycommerce/nextjs-commerce) ([Demo](https://prodigy-nextjs-commerce.vercel.app/))
-- [Saleor](https://github.com/saleor/nextjs-commerce) ([Demo](https://saleor-commerce.vercel.app/))
-- [Shopware](https://github.com/shopwareLabs/vercel-commerce) ([Demo](https://shopware-vercel-commerce-react.vercel.app/))
-- [Swell](https://github.com/swellstores/verswell-commerce) ([Demo](https://verswell-commerce.vercel.app/))
-- [Umbraco](https://github.com/umbraco/Umbraco.VercelCommerce.Demo) ([Demo](https://vercel-commerce-demo.umbraco.com/))
-- [Wix](https://github.com/wix/headless-templates/tree/main/nextjs/commerce) ([Demo](https://wix-nextjs-commerce.vercel.app/))
-- [Fourthwall](https://github.com/FourthwallHQ/vercel-commerce) ([Demo](https://vercel-storefront.fourthwall.app/))
-
-> Note: Providers, if you are looking to use similar products for your demo, you can [download these assets](https://drive.google.com/file/d/1q_bKerjrwZgHwCw0ovfUMW6He9VtepO_/view?usp=sharing).
-
-## Integrations
-
-Integrations enable upgraded or additional functionality for Next.js Commerce
-
-- [Orama](https://github.com/oramasearch/nextjs-commerce) ([Demo](https://vercel-commerce.oramasearch.com/))
-
-  - Upgrades search to include typeahead with dynamic re-rendering, vector-based similarity search, and JS-based configuration.
-  - Search runs entirely in the browser for smaller catalogs or on a CDN for larger.
-
-- [React Bricks](https://github.com/ReactBricks/nextjs-commerce-rb) ([Demo](https://nextjs-commerce.reactbricks.com/))
-  - Edit pages, product details, and footer content visually using [React Bricks](https://www.reactbricks.com) visual headless CMS.
-
-## Running locally
-
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js Commerce. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/concepts/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control your Shopify store.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
-
-```bash
-pnpm install
-pnpm dev
+```powershell
+# Enable pnpm via Corepack on Windows PowerShell
+corepack enable; corepack prepare pnpm@latest --activate
 ```
 
-Your app should now be running on [localhost:3000](http://localhost:3000/).
+## 1) Clone the repository
 
-<details>
-  <summary>Expand if you work at Vercel and want to run locally and / or contribute</summary>
+```powershell
+git clone https://github.com/Jaffer720/bloggen-comerce-starter.git
+cd bloggen-comerce-starter
+pnpm install
+```
 
-1. Run `vc link`.
-1. Select the `Vercel Solutions` scope.
-1. Connect to the existing `commerce-shopify` project.
-1. Run `vc env pull` to get environment variables.
-1. Run `pnpm dev` to ensure everything is working correctly.
-</details>
+## 2) Create your `.env`
 
-## Vercel, Next.js Commerce, and Shopify Integration Guide
+Use the provided example and fill in the values you’ll get from Shopify later in this guide.
 
-You can use this comprehensive [integration guide](https://vercel.com/docs/integrations/ecommerce/shopify) with step-by-step instructions on how to configure Shopify as a headless CMS using Next.js Commerce as your headless Shopify storefront on Vercel.
+```powershell
+Copy-Item .env.example .env
+```
+
+Environment variables used by this starter:
+
+| Name | Required | Description |
+|------|----------|-------------|
+| `SHOPIFY_STORE_DOMAIN` | Yes | Your store domain, e.g. `your-store.myshopify.com` |
+| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Yes | Storefront API access token from your custom app |
+| `SHOPIFY_REVALIDATION_SECRET` | Yes | Secret used by the webhook endpoint to trigger revalidation |
+| `COMPANY_NAME` | Optional | Used in UI/meta |
+| `SITE_NAME` | Optional | Used in UI/meta |
+| `GOOGLE_ANALYTICS_MEASUREMENT_ID` | Optional | If using GA4 (e.g. `G-XXXXXXX`) |
+
+## 3) Create a Shopify store
+
+If you don’t already have one, create a development store in Shopify.
+
+## 4) Create a custom app (Develop apps)
+
+In your Shopify Admin:
+
+1. Go to Settings → Apps and sales channels → Develop apps
+2. Create app → give it a name (e.g., “Headless Storefront”)
+
+## 5) Configure Storefront API access and install the app
+
+Inside your app, open “Storefront API access” and enable the scopes required for a headless storefront (Products, Collections, Product variants, Product recommendations, etc.). Save and then Install the app to generate credentials.
+
+## 6) Get your Storefront Access Token
+
+After installing the app, copy the “Storefront API access token”.
+
+Set it in your `.env`:
+
+```bash
+# .env
+SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_storefront_token
+```
+
+## 7) Get your Store Domain
+
+Go to Settings → Domains and copy your primary domain (e.g., `your-store.myshopify.com`).
+
+Set it in your `.env`:
+
+```bash
+# .env
+SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
+```
+
+## 8) Revalidation secret and webhooks (after deployment)
+
+This starter exposes a webhook endpoint at `/api/revalidate` that listens for Shopify product/collection events and refreshes cached pages. You’ll set the secret now and finish the webhook configuration after you deploy your site.
+
+1. Choose a long random value and set it as:
+
+```bash
+# .env
+SHOPIFY_REVALIDATION_SECRET=your_long_random_secret
+```
+
+2. After deployment (e.g., to Vercel), create webhooks in your Shopify Admin to point to:
+
+```
+https://your-deployment-url.com/api/revalidate?secret=your_long_random_secret
+```
+
+Recommended topics:
+
+- `products/create`, `products/update`, `products/delete`
+- `collections/create`, `collections/update`, `collections/delete`
+
+These match what the starter handles internally to keep product and collection pages fresh.
+
+## 9) Run locally
+
+```powershell
+pnpm dev
+# Visit http://localhost:3000
+```
+
+Try the following pages:
+
+- `/products` — product listing
+- `/product/[handle]` — individual product page
+- `/blog` — MDX‑powered blog index
+
+## Common issues
+
+- “Storefront unavailable” or 402 errors: ensure your store is active or on a development plan and your token is a Storefront token (not Admin).
+- Empty product lists: create at least one product in Shopify and ensure it’s available to the Online Store / Headless channel.
+- Wrong domain or token: double‑check `SHOPIFY_STORE_DOMAIN` and `SHOPIFY_STOREFRONT_ACCESS_TOKEN`.
+
+## Next steps
+
+- Customize theme tokens and components (Tailwind + RSC)
+- Add blog posts by dropping `.mdx` files into `content/blog`
+- Wire collections by slug under `/search/[collection]`
+- Add analytics by setting `GOOGLE_ANALYTICS_MEASUREMENT_ID`
+
+---
+
+Need help or want to share feedback? Open an issue or discussion in the repository.

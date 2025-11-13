@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import { Input, Select, Textarea } from '@/components/ui/input';
-// import { send } from '@emailjs/browser';
+import { send } from '@emailjs/browser';
 import { Button } from '../ui/button';
 
 type FormData = {
@@ -108,18 +108,18 @@ export default function ContactForm() {
         setSubmitStatus('idle');
 
         try {
-            // await send(
-            //     'service_cyapyc8',
-            //     'template_bt2twxe',
-            //     {
-            //         from_name: formData.name,
-            //         from_email: formData.email,
-            //         company: formData.company,
-            //         budget: formData.budget,
-            //         message: formData.project
-            //     },
-            //     process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-            // );
+            await send(
+                'service_cyapyc8',
+                'template_bt2twxe',
+                {
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    company: formData.company,
+                    budget: formData.budget,
+                    message: formData.project
+                },
+                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+            );
 
             setSubmitStatus('success');
             setFormData({

@@ -12,6 +12,7 @@ import ContactForm from '@/components/contact/contact-form';
 import TabsComponent from '@/components/ui/tabs';
 import { createPageMetadata } from '@/lib/seo/metadata/create-page-metadata';
 import ContactSchema from '@/lib/seo/schema/contact';
+import DirectContact from '@/components/contact/direct-contact';
 
 export const metadata: Metadata = createPageMetadata({
     path: 'contact',
@@ -33,6 +34,15 @@ const ContentWrapper = ({ children, className = '' }: { children: React.ReactNod
 );
 
 export default function ContactPage() {
+    // Compute direct contact hrefs on the server side to avoid client env access
+    const EMAIL_FALLBACK = 'mailto:silverthreadlabs@gmail.com';
+    const rawPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE || '';
+    const rawWhatsApp = process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || '';
+    const digitsOnly = (v: string) => v.replace(/\D/g, '');
+    const phoneDigits = digitsOnly(rawPhone);
+    const waDigits = digitsOnly(rawWhatsApp);
+    const phoneHref = phoneDigits ? `tel:+${phoneDigits}` : EMAIL_FALLBACK;
+    const whatsappHref = waDigits ? `https://wa.me/${waDigits}` : EMAIL_FALLBACK;
     const tabs = [
         {
             value: 'form',
@@ -63,6 +73,7 @@ export default function ContactPage() {
 
                     {/* Tabs Section */}
                     <TabsComponent tabs={tabs} defaultValue='form' />
+                    <DirectContact phoneHref={phoneHref} whatsappHref={whatsappHref} emailHref={EMAIL_FALLBACK} />
                 </div>
             </div>
         </>
