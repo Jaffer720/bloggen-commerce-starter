@@ -1,4 +1,4 @@
-import { GridTileImage } from 'components/grid/tile';
+import { GridTileImage } from '@/components/grid/tile';
 import { getCollection, getCollectionProducts, getCollections } from 'lib/shopify';
 import type { Product } from 'lib/shopify/types';
 import Link from 'next/link';

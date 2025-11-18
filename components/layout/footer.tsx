@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import FooterMenu from 'components/layout/footer-menu';
+import FooterMenu from '@/components/layout/footer-menu';
 import LogoSquare from '@/components/ui/logo-square';
-import CopyrightYear from 'components/layout/copyright-year';
+import CopyrightYear from '@/components/layout/copyright-year';
 import { getMenu } from 'lib/shopify';
 import { Suspense } from 'react';
 import { PiGithubLogo } from 'react-icons/pi';

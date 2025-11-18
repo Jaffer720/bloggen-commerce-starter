@@ -2,7 +2,7 @@
 
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
-import { useCart } from 'components/cart/cart-context';
+import { useCart } from '@/components/cart/cart-context';
 
 export function ShopUnavailableBanner() {
   const { shopUnavailable, unavailableMessage } = useCart();

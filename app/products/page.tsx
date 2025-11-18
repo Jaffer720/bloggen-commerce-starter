@@ -3,7 +3,7 @@ import { getCollectionProducts, getCollections } from '@/lib/shopify';
 import { Product } from '@/lib/shopify/types';
 import { Carousel } from '@/components/ui/carousel';
 import Link from 'next/link';
-import { ThreeItemGrid } from 'components/grid/three-items';
+import { ThreeItemGrid } from '@/components/grid/three-items';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = createPageMetadata({

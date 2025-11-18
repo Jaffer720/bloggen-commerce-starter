@@ -1,4 +1,4 @@
-import CartModal from 'components/cart/modal';
+import CartModal from '@/components/cart/modal';
 import LogoSquare from '@/components/ui/logo-square';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';

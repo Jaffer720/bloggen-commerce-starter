@@ -1,5 +1,5 @@
-import { CartProvider } from 'components/cart/cart-context';
-import { Navbar } from 'components/layout/navbar';
+import { CartProvider } from '@/components/cart/cart-context';
+import { Navbar } from '@/components/layout/navbar';
 import { WelcomeToast } from '@/components/ui/welcome-toast';
 import { ShopUnavailableBanner } from '@/components/ui/shop-unavailable-banner';
 import { Manrope } from 'next/font/google';
@@ -11,7 +11,7 @@ import { Toaster } from 'sonner';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 
 import './globals.css';
-import { baseUrl } from 'lib/utils';
+// import { baseUrl } from 'lib/utils';
 import { Viewport } from 'next';
 import Footer from '@/components/layout/footer';
 
