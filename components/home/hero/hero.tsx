@@ -21,7 +21,7 @@ export default function Hero() {
     };
 
     return (
-        <div className='px-4 sm:px-6 md:px-8 lg:px-0'>
+        <div className='px-4 sm:px-6 md:px-8 lg:px-0 h-[93vh] relative flex items-center justify-center overflow-hidden'>
             <div className='fixed inset-0 z-[-1]'>
                 <div className='absolute inset-0' />
             </div>

@@ -9,6 +9,7 @@ import { SHOP_UNAVAILABLE_USER_MESSAGE, getCart, isShopifyUnavailableError } fro
 import { ReactNode, Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { RootProvider } from 'fumadocs-ui/provider/next';
+import DottedBackground from '@/components/ui/dotted-background';
 
 import './globals.css';
 // import { baseUrl } from 'lib/utils';
@@ -86,9 +87,11 @@ export default async function RootLayout({
                   <ShopUnavailableBanner />
                 </Suspense>
                 <RootProvider>
+                  <DottedBackground>
                   <Suspense fallback={null}>
                     {children}
                   </Suspense>
+                  </DottedBackground>
                 </RootProvider>
                 <Toaster closeButton />
                 <WelcomeToast />

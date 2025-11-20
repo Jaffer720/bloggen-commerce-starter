@@ -125,8 +125,7 @@ table {
 
 body {
     /* background-color: #111111; */
-    /* font-family: 'Manrope', sans-seri
- f; */
+    /* font-family: 'Manrope', sans-serif; */
     font-family: var(--font-manrope), sans-serif;
     @apply bg-canvas-base;
 }
