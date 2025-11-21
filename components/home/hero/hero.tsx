@@ -29,26 +29,54 @@ export default function Hero() {
             <div className='relative z-10'>
                 <div className='mx-auto flex max-w-7xl flex-col lg:flex-row lg:gap-16'>
                     {/* Left Section */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className='flex flex-1 flex-col justify-center py-10 xl:py-16'>
-                        <div className='max-w-xl'>
-                            <span className='text-primary-text border-canvas-line mb-4 block max-w-fit rounded border border-none bg-transparent px-1 font-mono text-sm leading-normal font-normal tracking-widest whitespace-nowrap uppercase md:text-base'>
+                    <div className='flex flex-1 flex-col justify-center items-center text-center py-10 xl:py-16'>
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                hidden: { opacity: 0 },
+                                visible: {
+                                    opacity: 1,
+                                    transition: {
+                                        staggerChildren: 0.2
+                                    }
+                                }
+                            }}
+                            className='max-w-4xl'>
+                            <motion.span 
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                                }}
+                                className='text-primary-text border-canvas-line mb-4 block max-w-fit mx-auto rounded border border-none bg-transparent px-1 font-mono text-sm leading-normal font-normal tracking-widest whitespace-nowrap uppercase md:text-base'>
                                 Powered by Bloggen & Vercel Commerce
-                            </span>
-                            <h1 className='text-canvas-text-contrast mb-6 text-4xl leading-tight font-bold tracking-tight md:text-6xl'>
+                            </motion.span>
+                            <motion.h1 
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                                }}
+                                className='text-canvas-text-contrast mb-6 text-4xl leading-tight font-bold tracking-tight md:text-6xl'>
                                 Craft a storefront
                                 <span className='from-primary-solid via-primary-text to-primary-text-contrast bg-gradient-to-r bg-clip-text text-transparent'>
                                     <br />
                                     that feels uniquely yours.
                                 </span>
-                            </h1>
-                            <h2 className='text-canvas-text-contrast mb-8 text-xl leading-relaxed font-normal tracking-normal md:text-2xl'>
+                            </motion.h1>
+                            <motion.h2 
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                                }}
+                                className='text-canvas-text-contrast mb-8 text-xl leading-relaxed font-normal tracking-normal md:text-2xl'>
                                 Products & checkout powered by Shopify. UI, performance, blogs & structured data powered by Bloggen + Vercel Commerce.
-                            </h2>
-                            <div className='flex flex-col gap-4'>
+                            </motion.h2>
+                            <motion.div 
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                                }}
+                                className='flex flex-col gap-4 max-w-2xl justify-center mx-auto'>
                                 <div className='flex flex-col gap-4 sm:flex-row'>
                                     <Link
                                         target='_blank'
@@ -102,12 +130,12 @@ export default function Hero() {
                                         }
                                     />
                                 </div>
-                            </div>
-                        </div>
-                    </motion.div>
+                            </motion.div>
+                        </motion.div>
+                    </div>
 
                     {/* Right Section with Feature Cards */}
-                    <motion.div
+                    {/* <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.2 }}
@@ -124,7 +152,7 @@ export default function Hero() {
                                 />
                             ))}
                         </div>
-                    </motion.div>
+                    </motion.div> */}
                 </div>
             </div>
         </div>
