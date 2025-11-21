@@ -34,6 +34,10 @@ export default function DottedBackground({
     "--glow-dot-size": "2px",
     "--glow-dot-color": "var(--canvas-text-contrast)",
 
+    /* initial position off-screen so dots don't show fully on load */
+    "--mouse-x": "-9999px",
+    "--mouse-y": "-9999px",
+
     width: "100%",
     height: "100%",
     position: "relative",
