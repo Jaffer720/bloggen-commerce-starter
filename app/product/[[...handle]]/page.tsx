@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { GridTileImage } from '@/components/grid/tile';
 import { Gallery } from '@/components/product/gallery';
@@ -12,10 +12,27 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 export async function generateMetadata(props: {
-  params: Promise<{ handle: string }>;
+  params: Promise<{ handle?: string[] }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const product = await getProduct(params.handle);
+  if (!params.handle || params.handle.length === 0) {
+    // metadata for /product itself (could be generic or just redirect logic)
+    return {
+      title: 'Products',
+      description: 'All products'
+    };
+  }
+
+  const handle = params.handle[0];
+  if (!handle) {
+    // metadata for /product itself (could be generic or just redirect logic)
+    return {
+      title: 'Products',
+      description: 'All products'
+    };
+  }
+
+  const product = await getProduct(handle);
 
   if (!product) return notFound();
 
@@ -35,22 +52,29 @@ export async function generateMetadata(props: {
     },
     openGraph: url
       ? {
-          images: [
-            {
-              url,
-              width,
-              height,
-              alt
-            }
-          ]
-        }
+        images: [
+          {
+            url,
+            width,
+            height,
+            alt
+          }
+        ]
+      }
       : null
   };
 }
 
-export default async function ProductPage(props: { params: Promise<{ handle: string }> }) {
+export default async function ProductPage(props: { params: Promise<{ handle?: string[] }> }) {
   const params = await props.params;
-  const product = await getProduct(params.handle);
+
+  if (!params.handle || params.handle.length === 0) {
+    redirect('/products');
+  }
+  const handle = params.handle[0];
+
+  if (!handle) redirect('/products');
+  const product = await getProduct(handle);
 
   if (!product) return notFound();
 

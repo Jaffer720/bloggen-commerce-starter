@@ -47,8 +47,8 @@ export async function ThreeItemGrid({ products }: { products?: Product[] }) {
   return (
     <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
       {products?.map((p, i) => {
-        if (i === 0) return <ThreeItemGridItem size="full" item={p} priority={true} />
-        else return <ThreeItemGridItem size="half" item={p} priority={true} />
+        if (i === 0) return <ThreeItemGridItem key={i} size="full" item={p} priority={true} />
+        else return <ThreeItemGridItem key={i} size="half" item={p} priority={true} />
 
 
       })
