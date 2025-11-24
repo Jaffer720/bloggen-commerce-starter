@@ -10,6 +10,7 @@ import { createPageMetadata } from '@/lib/seo/metadata/create-page-metadata';
 import HomeSchema from '@/lib/seo/schema/home';
 import FAQSchema from '@/lib/seo/schema/faq';
 import DottedBackground from '@/components/ui/dotted-background';
+import ProductsCarousel from '@/components/home/products-carousel';
 
 export const metadata: Metadata = createPageMetadata({
     path: ''
@@ -25,6 +26,7 @@ export default function Page() {
             {/* <Performance /> */}
             {/* <DesignRift /> */}
             <Features />
+            <ProductsCarousel />
             <Faq />
             <Cta />
         </main>
