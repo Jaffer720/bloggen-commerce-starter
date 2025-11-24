@@ -7,6 +7,7 @@ import { useProduct } from '@/components/product/product-context';
 import { Product, ProductVariant } from '@/lib/shopify/types';
 import { useActionState } from 'react';
 import { useCart } from './cart-context';
+import { toast } from 'sonner';
 
 function SubmitButton({
   availableForSale,
@@ -88,11 +89,12 @@ export function AddToCart({ product }: { product: Product }) {
     <form
       action={async () => {
         if (shopUnavailable) {
+          toast.error(unavailableMessage)
           return;
         }
-
         addCartItem(finalVariant, product);
         addItemAction();
+        toast.success(`${product.handle} added to cart.`)
       }}
     >
       <SubmitButton
