@@ -26,7 +26,7 @@ export default function DottedBackground({
   const style = {
     /* base dot style */
     "--dot-size": "1px",
-    "--dot-color": "var(--canvas-solid)",
+    "--dot-color": "var(--canvas-line)",
     "--dot-space": "14px",
 
     /* glow settings */
